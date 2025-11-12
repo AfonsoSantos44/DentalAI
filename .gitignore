@@ -1,0 +1,70 @@
+# -------------------------
+# ENVIRONMENT VARIABLES
+# -------------------------
+.env
+*.env
+.env.local
+.env.*.local
+
+# -------------------------
+# PYTHON
+# -------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pyd
+.pytest_cache/
+.pytype/
+.coverage
+htmlcov/
+
+# -------------------------
+# VIRTUAL ENVIRONMENT
+# -------------------------
+venv/
+env/
+.env/
+.venv/
+
+# -------------------------
+# FASTAPI / UVICORN
+# -------------------------
+instance/
+*.pid
+
+# -------------------------
+# AUDIO TEMP FILES
+# -------------------------
+*.wav
+*.mp3
+temp_audio/
+uploads/
+
+# -------------------------
+# LOG FILES
+# -------------------------
+*.log
+logs/
+
+# -------------------------
+# EDITOR / IDE
+# -------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -------------------------
+# OS GENERATED FILES
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# MISC
+# -------------------------
+*.bak
+*.tmp
+*.old
