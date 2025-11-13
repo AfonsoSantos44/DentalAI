@@ -13,10 +13,13 @@ def save_uploaded_file(uploaded_file, save_path="uploads"):
     # Create folder if not exists
     os.makedirs(save_path, exist_ok=True)
 
-    filepath = os.path.join(save_path, uploaded_file.name)
+    unique_filename = f"{uuid.uuid4()}.{ext}"
+
+    filepath = os.path.join(save_path, unique_filename)
+
     with open(filepath, "wb") as f:
         f.write(uploaded_file.getbuffer())
-    
+
     return filepath
 
 def transcribe_audio(filepath):
