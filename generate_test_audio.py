@@ -1,10 +1,7 @@
 from gtts import gTTS
 
 text = """
-The patient reports sensitivity on tooth eleven and twelve.
-There is mild gingivitis.
-Scaling was performed today.
-Recommend a follow up appointment in thirty days.
+"The patient might have sensitivity but I'm not sure if it's tooth 12 or 22."
 """
 
 tts = gTTS(text=text, lang="en")

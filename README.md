@@ -18,6 +18,7 @@
 
 ## Running
 
+- test_audio -  python generate_test_audio.py
 - pip install -r requirements.txt
 - uvicorn app.main:app --log-level debug --port 8001
 - endpoint: http://127.0.0.1:8000/

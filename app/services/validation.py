@@ -9,31 +9,34 @@ VALID_TOOTH_NUMBERS = set(range(1, 48))
 
 
 def extract_spoken_teeth(transcription: str) -> List[int]:
-  
     text = transcription.lower()
-    teeth: set[int] = set()
+    teeth = set()
 
-   
-    range_matches = re.findall(r"\b(\d{1,2})\s*(?:–|-)\s*(\d{1,2})\b", text)
-    for a, b in range_matches:
-        start, end = int(a), int(b)
-        lo, hi = min(start, end), max(start, end)
-        for t in range(lo, hi + 1):
-            teeth.add(t)
+    # Pattern 1 — ranges (2–11)
+    for a, b in re.findall(r"\b(\d{1,2})\s*(?:–|-)\s*(\d{1,2})\b", text):
+        lo, hi = sorted([int(a), int(b)])
+        teeth.update(range(lo, hi + 1))
 
-    context_pattern = r"(?:tooth|teeth|on|number|dente|elemento)\s+(\d{1,2})"
-    singles = re.findall(context_pattern, text)
-    for num in singles:
+    # Pattern 2 — explicit “tooth 12”
+    for num in re.findall(r"(?:tooth|teeth|number)\s+(\d{1,2})", text):
         teeth.add(int(num))
 
-    and_pattern = r"(?:and|e)\s+(\d{1,2})"
-    and_nums = re.findall(and_pattern, text)
-    for num in and_nums:
+    # Pattern 3 — “12 or 22”
+    for num in re.findall(r"(?:or|and|e)\s+(\d{1,2})", text):
         teeth.add(int(num))
 
-    valid_teeth = sorted(t for t in teeth if 1 <= t <= 48)
+    # Pattern 4 — fallback: capture numbers near “tooth”
+    fallback_matches = re.findall(r"\b(\d{1,2})\b", text)
+    for idx, num in enumerate(fallback_matches):
+        num = int(num)
+        # Only add if number is close to other extracted teeth
+        if num not in teeth:
+            # If spoken teeth already include a neighbor or paired number
+            if any(abs(num - t) <= 1 for t in teeth):
+                teeth.add(num)
 
-    return valid_teeth
+    return sorted(t for t in teeth if 1 <= t <= 48)
+
 
 
 
