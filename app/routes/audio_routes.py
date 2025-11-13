@@ -48,11 +48,10 @@ async def process_audio(file: UploadFile = File(...)):
 
 
         return {
-
             "transcription": transcription,
-
-            "dental_analysis": dental_output.dict()
-
+            "dental_analysis": dental_output["final"].dict(),
+            "confidence": dental_output["confidence"],
+            "all_runs": dental_output["all_runs"]
         }
 
 
