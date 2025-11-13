@@ -1,7 +1,8 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.speech_to_text import transcribe_audio
-from app.services.llm_processing import process_transcription
-from app.services.file_handling import save_uploaded_file
+from app.services.llm_processing import process_dental_transcription
+from app.utils.file_handler import save_uploaded_file
+from app.utils.file_handler import delete_file
 
 router = APIRouter()
 
@@ -11,16 +12,33 @@ async def process_audio(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Invalid file type. Please upload a valid audio file.")
 
     filepath = save_uploaded_file(file)
+    print("DEBUG: Saved file at", filepath)
 
-    transcription = transcribe_audio(filepath)
+    try:
+        # 1. Transcription
+        transcription = transcribe_audio(filepath)
+        print("DEBUG: Transcription =", transcription)
 
-    if len(transcription) == 0:
-        raise HTTPException(status_code=500, detail="Transcription failed or resulted in empty text.")
+        if len(transcription.strip()) == 0:
+            raise HTTPException(status_code=500, detail="Transcription failed or resulted in empty text.")
 
-    dental_output = process_transcription(transcription)
+        # 2. GPT Processing
+        dental_output = process_dental_transcription(transcription)
+        print("DEBUG: Dental Output =", dental_output)
 
+        return {
+            "transcription": transcription,
+            "dental_analysis": dental_output.dict()
+        }
 
-    return{
-        "transcription": transcription,
-        "dental_analysis": dental_output.dict()
-    }
+    except Exception as e:
+        import traceback
+        print("\n--- ERROR OCCURRED ---")
+        traceback.print_exc()
+        print("--- END ERROR ---\n")
+
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        delete_file(filepath)
+        print("DEBUG: Deleted file", filepath)

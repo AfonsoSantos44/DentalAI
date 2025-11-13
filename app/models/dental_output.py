@@ -16,7 +16,7 @@ Attributes:
 '''
 
 class DentalOutput(BaseModel):
-    teeth_positions: List[int]
+    teeth: List[int]
     diagnosis: List[str]
     procedures: List[str]
     follow_up_days: int

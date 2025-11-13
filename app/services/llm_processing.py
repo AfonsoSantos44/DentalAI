@@ -1,33 +1,50 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import PydanticOutputParser
 from app.models.dental_output import DentalOutput
-from app.services.validation import sanitize_llm_output
+from app.services.validation import validate_dental_output
+from app.config.settings import get_settings
+
+settings = get_settings()
+print("DEBUG OPENAI KEY LOADED:", settings.openai_api_key[:8] + "...")
+
 
 model = ChatOpenAI(
-    model="gpt-4o-mini", 
-    temperature=0,
+    model=settings.openai_model,
+    api_key=settings.openai_api_key,      
+    temperature=settings.openai_temperature,
 )
+
 
 # Create output parser
 parser = PydanticOutputParser(pydantic_object=DentalOutput)
 
 def process_dental_transcription(transcription: str) -> DentalOutput:
+
     prompt = f"""
     You are a professional dental AI assistant.
 
-    Extract structured dental analysis from the following transcription of a dental consultation:
+    Return ONLY this JSON structure:
+
+    {{
+    "teeth": [int],
+    "diagnosis": [str],
+    "procedures": [str],
+    "follow_up_days": int,
+    "notes": str
+    }}
+
+    Do NOT rename keys.
+    Do NOT include extra fields.
+
+    Schema:
+    {parser.get_format_instructions()}
 
     --- TRANSCRIPTION ---
     {transcription}
-    ----------------------
-
-    Follow this JSON schema exactly:
-    {parser.get_format_instructions()}
     """
-
 
     response = model.invoke(prompt)
 
     parsed_output = parser.parse(response.content)
 
-    return sanitize_llm_output(parsed_output.dict())
+    return validate_dental_output(parsed_output.dict())

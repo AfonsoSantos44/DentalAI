@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from app.routes.audio_routes import router as audio_router
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(
     title="Dental AI Assistant",

@@ -1,26 +1,13 @@
-import streamlit as st
 import os
 import whisper
+from app.config.settings import get_settings
 
-# Cache Whisper model (prevents reloading on every Streamlit refresh)
-@st.cache_resource
+settings = get_settings()
+
 def load_whisper_model():
-    return whisper.load_model("base")
+    return whisper.load_model(settings.whisper_model)
 
 model = load_whisper_model()
-
-def save_uploaded_file(uploaded_file, save_path="uploads"):
-    # Create folder if not exists
-    os.makedirs(save_path, exist_ok=True)
-
-    unique_filename = f"{uuid.uuid4()}.{ext}"
-
-    filepath = os.path.join(save_path, unique_filename)
-
-    with open(filepath, "wb") as f:
-        f.write(uploaded_file.getbuffer())
-
-    return filepath
 
 def transcribe_audio(filepath):
     result = model.transcribe(filepath)

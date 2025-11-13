@@ -26,27 +26,26 @@ def validate_strings(strings: List[str]) -> List[str]:
     
 def validate_dental_output(data: dict) -> DentalOutput:
     try:
-        # Extract raw fields safely
-        raw_teeth = raw_json.get("teeth", [])
-        raw_diagnosis = raw_json.get("diagnosis", [])
-        raw_procedures = raw_json.get("procedures", [])
-        follow_up_days = raw_json.get("follow_up_days", 30)
-        notes = raw_json.get("notes", "").strip()
+        # Accept either "teeth" or "teeth_positions"
+        if "teeth_positions" in data:
+            data["teeth"] = data.pop("teeth_positions")
 
-        # Sanitize
-        clean_teeth = validate_teeth(raw_teeth)
+        raw_teeth = data.get("teeth", [])
+        raw_diagnosis = data.get("diagnosis", [])
+        raw_procedures = data.get("procedures", [])
+        follow_up_days = data.get("follow_up_days", 30)
+        notes = data.get("notes", "").strip()
+
+        clean_teeth = validate_teeth_positions(raw_teeth)
         clean_diagnosis = validate_strings(raw_diagnosis)
         clean_procedures = validate_strings(raw_procedures)
 
-        # Ensure notes is a string
         if not isinstance(notes, str):
             notes = ""
 
-        # Prevent days < 0
         if not isinstance(follow_up_days, int) or follow_up_days < 0:
             follow_up_days = 30
 
-        # Build final validated object
         return DentalOutput(
             teeth=clean_teeth,
             diagnosis=clean_diagnosis,
