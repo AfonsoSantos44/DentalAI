@@ -67,7 +67,7 @@ def validate_dental_output(data: dict, transcription: str) -> DentalOutput:
         spoken_teeth = extract_spoken_teeth(transcription)
 
         if set(clean_teeth) != set(spoken_teeth):
-            print("⚠️ WARNING: LLM changed tooth numbers. Fixing to spoken teeth.")
+            print("WARNING: LLM changed tooth numbers. Fixing to spoken teeth.")
             clean_teeth = validate_teeth_positions(spoken_teeth)
 
         # Clean remaining fields

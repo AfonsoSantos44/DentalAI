@@ -62,6 +62,11 @@ def run_single_extraction(transcription: str) -> dict:
 
     Do NOT include extra fields.
 
+    "notes" MUST always be a full sentence summary of key findings.
+    NEVER leave "notes" empty.
+    Always rewrite the notes using the patient’s words and the clinician’s actions.
+    Be aware that if we have number of teeth like this 2-4, it means teeth 2, 3, and 4 for example.
+
 
     Schema:
 
