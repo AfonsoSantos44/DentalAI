@@ -19,6 +19,6 @@
 ## Running
 
 - pip install -r requirements.txt
-- uvicorn app.main:app --reload
+- uvicorn app.main:app --log-level debug --port 8001
 - endpoint: http://127.0.0.1:8000/
 - api-doc: http://localhost:8001/docs#/

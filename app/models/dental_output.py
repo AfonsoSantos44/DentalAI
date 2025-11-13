@@ -21,3 +21,4 @@ class DentalOutput(BaseModel):
     procedures: List[str]
     follow_up_days: int
     notes: str
+    confidence_score: float = 0.0
