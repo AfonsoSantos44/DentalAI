@@ -21,7 +21,7 @@ def _serialize_analysis(analysis):
 
 @router.get("/")
 def get_all(db: Session = Depends(get_db)):
-    analyses = list_analyses(db)
+    analyses, total = list_analyses(db)
     return [_serialize_analysis(analysis) for analysis in analyses]
 
 

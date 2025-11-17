@@ -1,4 +1,4 @@
-import { createElement } from "./utils";
+import { createElement } from "./utils.js";
 export class Layout {
     constructor(pages, initial) {
         this.pages = pages;

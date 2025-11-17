@@ -1,4 +1,4 @@
-import { createElement } from "../utils";
+import { createElement } from "../utils.js";
 export function StatsCard(label, value) {
     return createElement("div", "stat-card", [
         createElement("span", "stat-card__label", [label]),

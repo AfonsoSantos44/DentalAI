@@ -1,5 +1,5 @@
-import { FileUpload } from "../Components/FileUpload";
-import { createElement } from "../utils";
+import { FileUpload } from "../Components/FileUpload.js";
+import { createElement } from "../utils.js";
 export function UploadPage(onProcessed) {
     const upload = new FileUpload({ onProcessed });
     return {

@@ -27,4 +27,20 @@
 ## Frontend
 
 - The TypeScript frontend now lives in the top-level `frontend/` directory.
-- Run `npm install` and `npm run build` from `frontend/` to emit assets into `backend/app/static`, which FastAPI serves at runtime.
+- Verify the build output
+    - Check that the frontend emitted files into backend/app/static (index.html + js/css). Example:
+        - Windows: `dir backend\app\static`
+        - mac/linux: `ls backend/app/static`
+
+- Start the backend (serves the built site)
+    1. Activate the virtual environment:
+         - Windows: `venv\Scripts\activate`
+         - mac/linux: `source venv/bin/activate`
+    2. Install Python deps (if not done): `pip install -r requirements.txt`
+    3. Run the server: ` python -m uvicorn app.main:app --reload --port 8001`
+    4. Open your browser at: `http://localhost:8001/`  
+         - API docs: `http://localhost:8001/docs`
+
+- (Optional) Use the frontend dev server for hot reload
+    - In a separate shell: `cd frontend && npm run dev`
+    - Open the dev-server URL printed in the terminal (commonly `http://localhost:3000`)

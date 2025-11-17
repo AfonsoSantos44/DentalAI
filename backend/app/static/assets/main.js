@@ -1,11 +1,11 @@
-import { Layout } from "./Layout";
-import { LandingPage } from "./Pages/Landing";
-import { DashboardPage } from "./Pages/Dashboard";
-import { UploadPage } from "./Pages/Upload";
-import { AnalysesPage } from "./Pages/Analyses";
-import { SettingsPage } from "./Pages/Settings";
-import { ResultsPage } from "./Pages/Results";
-import { fetchJson } from "./utils";
+import { Layout } from "./Layout.js";
+import { LandingPage } from "./Pages/Landing.js";
+import { DashboardPage } from "./Pages/Dashboard.js";
+import { UploadPage } from "./Pages/Upload.js";
+import { AnalysesPage } from "./Pages/Analyses.js";
+import { SettingsPage } from "./Pages/Settings.js";
+import { ResultsPage } from "./Pages/Results.js";
+import { fetchJson } from "./utils.js";
 async function fetchAnalysisWithSummaries(id) {
     const [analysis, summaries] = await Promise.all([
         fetchJson(`/analyses/${id}`),

@@ -1,4 +1,4 @@
-import { createElement, formatDate } from "../utils";
+import { createElement, formatDate } from "../utils.js";
 export function AnalysesTable(analyses, onSelect) {
     const wrapper = createElement("div", "card");
     const table = createElement("table", "table");
