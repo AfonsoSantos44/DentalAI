@@ -33,7 +33,10 @@ async def process_full(
     # Validate MIME type
     validate_audio(file)
 
-    filepath = save_uploaded_file(file)
+    try:
+        filepath = save_uploaded_file(file)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
 
     try:
         # 1 — Transcription
