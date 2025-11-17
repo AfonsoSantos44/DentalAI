@@ -1,5 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from sqlalchemy.orm import Session
+from time import perf_counter
 
 from app.core.database import get_db
 from app.services.speech_to_text import transcribe_audio
@@ -25,6 +26,10 @@ def validate_audio(file: UploadFile):
         )
 
 
+def _error(status_code: int, code: str, message: str):
+    raise HTTPException(status_code=status_code, detail={"code": code, "message": message})
+
+
 @router.post("/process_full", summary="Full pipeline: STT → Clinical JSON → PT/EN Summaries")
 async def process_full(
     file: UploadFile = File(...),
@@ -33,27 +38,46 @@ async def process_full(
     # Validate MIME type
     validate_audio(file)
 
-    filepath = save_uploaded_file(file)
+    filepath = None
+    try:
+        filepath = save_uploaded_file(file)
+    except ValueError as exc:
+        _error(400, "invalid_file", str(exc))
 
+    start_time = perf_counter()
+    processing_ms = None
     try:
         # 1 — Transcription
-        transcription = transcribe_audio(filepath)
+        try:
+            transcription = transcribe_audio(filepath)
+        except Exception as exc:  # pragma: no cover - passthrough wrapper
+            _error(502, "transcription_failed", f"Speech-to-text failed: {exc}")
+
         if not transcription.strip():
-            raise HTTPException(500, "Empty transcription, check audio quality.")
+            _error(422, "empty_transcription", "Empty transcription, check audio quality.")
 
         # 2 — Clinical Extraction (Ensemble)
-        clinical_result = llm_analysis(transcription, runs=5)
+        try:
+            clinical_result = llm_analysis(transcription, runs=5)
+        except Exception as exc:  # pragma: no cover - passthrough wrapper
+            _error(502, "analysis_failed", f"Clinical extraction failed: {exc}")
         clinical_json = clinical_result["final"].dict()
         confidence = clinical_result["confidence"]
 
         # 3 — Summaries PT/EN
-        scribe_output = run_scribe_transformation(transcription, clinical_json)
+        try:
+            scribe_output = run_scribe_transformation(transcription, clinical_json)
+        except Exception as exc:  # pragma: no cover - passthrough wrapper
+            _error(502, "summaries_failed", f"Summary generation failed: {exc}")
 
         # 4 — Save to PostgreSQL
+        processing_ms = int((perf_counter() - start_time) * 1000)
         analysis = create_analysis(
             db=db,
             transcription=transcription,
-            clinical_json=clinical_json
+            clinical_json=clinical_json,
+            processing_ms=processing_ms,
+            status="success",
         )
 
         save_summaries(
@@ -70,8 +94,6 @@ async def process_full(
             "confidence": confidence
         }
 
-    except Exception as e:
-        raise HTTPException(500, detail=str(e))
-
     finally:
-        delete_file(filepath)
+        if filepath:
+            delete_file(filepath)
