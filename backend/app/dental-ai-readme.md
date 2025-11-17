@@ -26,12 +26,12 @@ python generate_test_audio.py
 
 ### Install Dependencies
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### Start the Server
 ```bash
-uvicorn app.main:app --log-level debug --port 8001
+python -m uvicorn app.main:app --log-level debug --port 8001
 ```
 
 ### Access Points

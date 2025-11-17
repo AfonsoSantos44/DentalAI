@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import PydanticOutputParser
 
-from app.config.settings import get_settings
+from app.core.config.settings import get_settings
 from app.models.dental_scribe_output import DentalScribeOutput 
 
 settings = get_settings()

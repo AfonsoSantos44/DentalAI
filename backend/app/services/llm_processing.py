@@ -6,7 +6,7 @@ from app.models.dental_output import DentalOutput
 
 from app.services.validation import validate_dental_output
 
-from app.config.settings import get_settings
+from app.core.config.settings import get_settings
 
 
 settings = get_settings()

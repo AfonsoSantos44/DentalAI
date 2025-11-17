@@ -1,5 +1,5 @@
 import uuid
-from app.config.settings import get_settings
+from app.core.config.settings import get_settings
 import os
 
 settings = get_settings()

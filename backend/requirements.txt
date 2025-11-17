@@ -1,0 +1,56 @@
+fastapi
+fastapi[all]
+uvicorn[standard]
+
+# PostgreSQL
+sqlalchemy
+psycopg2-binary
+
+# AI
+openai
+langchain
+langchain-core
+langchain-openai
+
+# Whisper + Audio
+openai-whisper
+ffmpeg-python
+
+# Settings + Environment
+pydantic
+pydantic-settings
+python-dotenv
+
+# Utilities
+python-multipart
+loguru
+typing_extensions
+orjson
+fastapi
+fastapi[all]
+uvicorn[standard]
+
+# PostgreSQL
+sqlalchemy
+psycopg2-binary
+
+# AI
+openai
+langchain
+langchain-core
+langchain-openai
+
+# Whisper + Audio
+openai-whisper
+ffmpeg-python
+
+# Settings + Environment
+pydantic
+pydantic-settings
+python-dotenv
+
+# Utilities
+python-multipart
+loguru
+typing_extensions
+orjson
