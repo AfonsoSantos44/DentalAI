@@ -11,6 +11,13 @@ router = APIRouter()
 @router.get("/")
 def get_stats(db: Session = Depends(get_db)):
     total = db.query(Analysis).count()
+    successful = db.query(Analysis).filter(Analysis.status == "success").count()
+    avg_processing_ms = (
+        db.query(func.avg(Analysis.processing_ms))
+        .filter(Analysis.processing_ms.isnot(None))
+        .scalar()
+    )
+
     return {
         "total_analyses": total,
         "avg_processing": "45s",
