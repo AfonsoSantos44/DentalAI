@@ -90,7 +90,8 @@ async def process_full(
         # 5 — Return ID (frontend uses this to redirect to /results/:id)
         return {
             "analysis_id": analysis.id,
-            "confidence": confidence
+            "confidence": confidence,
+            "processing_ms": processing_ms,
         }
 
     finally:
