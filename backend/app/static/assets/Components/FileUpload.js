@@ -1,5 +1,5 @@
-import { ProcessingSteps } from "./ProcessingSteps.js";
-import { createElement, fetchJson } from "../utils.js";
+import { ProcessingSteps } from "./ProcessingSteps";
+import { createElement, fetchJson } from "../utils";
 export class FileUpload {
     constructor(options) {
         this.options = options;

@@ -1,10 +1,9 @@
-import { AnalysesTable } from "../Components/AnalysesTable.js";
-import { LoadingSkeleton } from "../Components/LoadingSkeleton.js";
-import { createElement, fetchJson } from "../utils.js";
+import { AnalysesTable } from "../Components/AnalysesTable";
+import { LoadingSkeleton } from "../Components/LoadingSkeleton";
+import { createElement, fetchJson } from "../utils";
 export function AnalysesPage(onSelect) {
     let listContainer;
     const loadAnalyses = async () => {
-        if (!listContainer) return;
         listContainer.innerHTML = "";
         listContainer.appendChild(LoadingSkeleton(5));
         try {

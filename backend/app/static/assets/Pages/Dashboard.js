@@ -1,10 +1,9 @@
-import { StatsCard } from "../Components/StatsCard.js";
-import { LoadingSkeleton } from "../Components/LoadingSkeleton.js";
-import { createElement, fetchJson } from "../utils.js";
+import { StatsCard } from "../Components/StatsCard";
+import { LoadingSkeleton } from "../Components/LoadingSkeleton";
+import { createElement, fetchJson } from "../utils";
 export function DashboardPage() {
     let statsContainer;
     const renderStats = async () => {
-        if (!statsContainer) return;
         statsContainer.innerHTML = "";
         statsContainer.appendChild(LoadingSkeleton(2));
         try {

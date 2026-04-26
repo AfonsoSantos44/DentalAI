@@ -1,6 +1,6 @@
-import { JSONViewer } from "../Components/JSONViewer.js";
-import { LoadingSkeleton } from "../Components/LoadingSkeleton.js";
-import { createElement } from "../utils.js";
+import { JSONViewer } from "../Components/JSONViewer";
+import { LoadingSkeleton } from "../Components/LoadingSkeleton";
+import { createElement } from "../utils";
 export class ResultsPage {
     render() {
         this.transcription = createElement("p", "muted", ["Run an analysis to see the transcript."]);
@@ -33,8 +33,8 @@ export class ResultsPage {
         return this.container;
     }
     showLoading() {
-        if (!this.summaries || !this.jsonSlot) return;
-        this.summaries.innerHTML = "";
+        if (this.summaries)
+            this.summaries.innerHTML = "";
         this.jsonSlot.innerHTML = "";
         this.summaries.appendChild(LoadingSkeleton(4));
         this.jsonSlot.appendChild(LoadingSkeleton(6));

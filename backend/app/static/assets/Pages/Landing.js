@@ -1,6 +1,6 @@
-import { GradientButton } from "../Components/GradientButton.js";
-import { InfoCard } from "../Components/InfoCard.js";
-import { createElement } from "../utils.js";
+import { GradientButton } from "../Components/GradientButton";
+import { InfoCard } from "../Components/InfoCard";
+import { createElement } from "../utils";
 export function LandingPage(onGetStarted) {
     return {
         id: "landing",

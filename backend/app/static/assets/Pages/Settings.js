@@ -1,4 +1,4 @@
-import { createElement } from "../utils.js";
+import { createElement } from "../utils";
 export function SettingsPage() {
     const toggles = [
         { label: "Auto-run summaries after transcription", checked: true },

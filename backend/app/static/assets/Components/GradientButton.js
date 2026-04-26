@@ -1,4 +1,4 @@
-import { createElement } from "../utils.js";
+import { createElement } from "../utils";
 export function GradientButton(label, onClick) {
     const button = createElement("button", "btn btn--gradient", [label]);
     button.type = "button";

@@ -1,4 +1,4 @@
-import { createElement } from "../utils.js";
+import { createElement } from "../utils";
 export function InfoCard(title, body) {
     return createElement("div", "info-card", [
         createElement("p", "info-card__title", [title]),

@@ -1,4 +1,4 @@
-import { createElement, badge } from "../utils.js";
+import { createElement, badge } from "../utils";
 const STEP_LABELS = [
     "Upload audio",
     "Transcribe note",
