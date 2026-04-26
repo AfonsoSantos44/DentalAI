@@ -1,5 +1,7 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pathlib import Path
 from functools import lru_cache
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     DATABASE_URL: str
@@ -9,7 +11,8 @@ class Settings(BaseSettings):
 
     whisper_model: str = "base"
     whisper_device: str = "cpu"
-    
+    ffmpeg_binary: str = "ffmpeg"
+
     upload_folder: str = "uploads"
     temp_audio_folder: str = "temp_audio"
 
@@ -17,7 +20,7 @@ class Settings(BaseSettings):
     environment: str = "development"
 
     model_config = SettingsConfigDict(
-        env_file="C:/Users/reiaf/Desktop/DentalAi/DentalAI/backend/.env",
+        env_file=str(Path(__file__).resolve().parents[3] / ".env"),
         env_file_encoding="utf-8",
         extra="ignore"
     )

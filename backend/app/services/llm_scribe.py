@@ -2,7 +2,8 @@ from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import PydanticOutputParser
 
 from app.core.config.settings import get_settings
-from app.models.dental_scribe_output import DentalScribeOutput 
+from app.models.dental_scribe_output import DentalScribeOutput
+from app.services.json_resilience import parse_with_repair_and_retry
 
 settings = get_settings()
 
@@ -69,5 +70,11 @@ def run_scribe_transformation(transcription: str, clinical_output: dict) -> Dent
     )
 
     response = scribe_model.invoke(prompt)
-    parsed = scribe_parser.parse(response.content)
+    parsed = parse_with_repair_and_retry(
+        parser=scribe_parser,
+        model=scribe_model,
+        base_prompt=prompt,
+        initial_content=response.content,
+        max_retries=2,
+    )
     return parsed
