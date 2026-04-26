@@ -330,7 +330,6 @@ Returns clinical JSON + PT/EN scribe.
 
 ### Before backend:
 
-- 🔄 JSON repair & retry  
 - 🎭 Scribe styles (clinical / patient / SOAP / insurance)  
 - 🔊 Audio noise reduction  
 - 🤖 Whisper model auto-selection  

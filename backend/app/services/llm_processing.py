@@ -4,7 +4,7 @@ from langchain_core.output_parsers import PydanticOutputParser
 
 from app.models.dental_output import DentalOutput
 
-from app.services.validation import validate_dental_output
+from app.services.json_resilience import parse_with_repair_and_retry
 
 from app.core.config.settings import get_settings
 
@@ -81,9 +81,13 @@ def run_single_extraction(transcription: str) -> dict:
 
     response = model.invoke(prompt)
 
-
-    parsed_output = parser.parse(response.content)
-
+    parsed_output = parse_with_repair_and_retry(
+        parser=parser,
+        model=model,
+        base_prompt=prompt,
+        initial_content=response.content,
+        max_retries=2,
+    )
 
     return parsed_output.dict()
 
