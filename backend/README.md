@@ -44,3 +44,10 @@
 - (Optional) Use the frontend dev server for hot reload
     - In a separate shell: `cd frontend && npm run dev`
     - Open the dev-server URL printed in the terminal (commonly `http://localhost:3000`)
+
+## Whisper prerequisites
+
+- Install **FFmpeg** and make sure `ffmpeg` is available in your terminal PATH.
+- If FFmpeg is installed in a custom location (common on Windows), set it in `.env`:
+  - `FFMPEG_BINARY=C:/ffmpeg/bin/ffmpeg.exe`
+- Without FFmpeg, `/audio/process_full` will fail during transcription with a `transcription_failed` error.
